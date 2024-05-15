@@ -119,9 +119,12 @@ export function useGate(): (gateName: Gate) => boolean {
       if (cachedValue !== undefined) {
         return cachedValue
       }
-      const value = Statsig.initializeCalled()
-        ? Statsig.checkGate(gateName)
-        : false
+      const value =
+        gateName == 'dms'
+          ? true
+          : Statsig.initializeCalled()
+          ? Statsig.checkGate(gateName)
+          : false
       cache.set(gateName, value)
       return value
     },
